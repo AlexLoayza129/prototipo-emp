@@ -63,6 +63,8 @@ flutter:
   assets:
     - assets/splashscreen.json
     - assets/splash2.json
+    - assets/logo.png
+    - assets/perfil.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
