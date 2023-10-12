@@ -1,3 +1,4 @@
+import 'package:drplus/global/helper.dart';
 import 'package:drplus/pages/CrearCuenta.dart';
 import 'package:flutter/material.dart';
 
@@ -9,12 +10,15 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Helper helper = Helper(context);
+
     return MaterialApp(
       title: _title,
       home: Scaffold(
         // appBar: AppBar(title: const Text(_title)),
         body: const MyStatefulWidget(),
       ),
+      routes: helper.routes,
     );
   }
 }
@@ -87,6 +91,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   onPressed: () {
                     print(nameController.text);
                     print(passwordController.text);
+                    Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
                   },
                 )
             ),
@@ -100,7 +105,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   ),
                   onPressed: () {
                     //signup screen
-                    Navigator.push(context,MaterialPageRoute(builder: (context) => const CrearCuenta()));
+                    // Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
                   },
                 )
               ],

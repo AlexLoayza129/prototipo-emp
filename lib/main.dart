@@ -1,3 +1,4 @@
+import 'package:drplus/pages/Login.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -29,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
   //Simulates loading of data
   Future<void> loadData() async {
     await Future.delayed(const Duration(seconds: 5));
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => AgendarCita()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Login()));
     // await Timer(const Duration(seconds: 5), onDoneLoading);
   }
 
