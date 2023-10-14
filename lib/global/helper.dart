@@ -1,11 +1,13 @@
 import 'package:drplus/pages/AgendarCita.dart';
+import 'package:drplus/pages/Consultas.dart';
+import 'package:drplus/pages/CrearCuenta.dart';
 import 'package:drplus/pages/Home.dart';
 import 'package:drplus/pages/Login.dart';
+import 'package:drplus/pages/Profile.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class Helper{
-
   late dynamic width;
   late dynamic height;
 
@@ -60,12 +62,12 @@ class Helper{
     return formatPE.format(day);
   }
 
-  showAlertDialog(BuildContext context, String title, String content, Widget routeScreen) {
+  showAlertDialog(BuildContext context, String title, String content, String routeScreen, int? id) {
 
     Widget cancelButton = TextButton(
       child: const Text("Cancelar", style: TextStyle(color: Colors.redAccent)),
       onPressed: (){
-        Navigator.of(context).pop();
+        Navigator.of(context, rootNavigator: true).pop();
       },
     );
 
@@ -73,7 +75,8 @@ class Helper{
     Widget okButton = TextButton(
       child: Text("Aceptar", style: TextStyle(color: getPrimaryColor())),
       onPressed: () {
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => routeScreen), (route) => false);
+        Navigator.of(context, rootNavigator: true).pop();
+        Navigator.pushNamedAndRemoveUntil(context, routeScreen, (route) => false, arguments: { 'id': id });
       },
     );
 
@@ -99,15 +102,21 @@ class Helper{
 
   Map<String, Widget Function(BuildContext)> routes = {
     '/login': (context) => Login(),
+    '/create': (context) => CrearCuenta(),
     '/home': (context) => Home(),
-    // '/profile': (context) =>Profile(),
-    '/makeAppointment': (context) => AgendarCita()
+    '/profile': (context) => Profile(),
+    '/makeAppointment': (context) => AgendarCita(),
+    '/consults': (context) => Consultas()
   };
 
-  redirectTo(int index, BuildContext context){
+  redirectTo(int index, BuildContext context, int id){
     switch(index){
+      case 0:
+        Navigator.pushNamedAndRemoveUntil(context,'/home', (route) => false, arguments: { 'id': id });
       case 1:
-        Navigator.pushNamedAndRemoveUntil(context,'/makeAppointment', (route) => false);
+        Navigator.pushNamedAndRemoveUntil(context,'/profile', (route) => false, arguments: { 'id': id });
+      case 2:
+        Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
     }
   }
 }

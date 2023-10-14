@@ -1,4 +1,8 @@
+import 'package:drplus/global/helper.dart';
+import 'package:drplus/pages/CrearCuenta.dart';
+import 'package:drplus/pages/Home.dart';
 import 'package:drplus/pages/Login.dart';
+import 'package:drplus/pages/Profile.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -12,6 +16,13 @@ void main() => runApp(MaterialApp(
            headlineMedium: TextStyle(fontSize: 40)
          )
       ),
+      routes: {
+        '/login': (context) => Login(),
+        '/create': (context) => CrearCuenta(),
+        '/home': (context) => Home(),
+        '/profile': (context) => Profile(),
+        '/makeAppointment': (context) => AgendarCita()
+      },
       home: SplashScreen(),
     ));
 
@@ -30,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
   //Simulates loading of data
   Future<void> loadData() async {
     await Future.delayed(const Duration(seconds: 5));
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Login()));
+    Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
     // await Timer(const Duration(seconds: 5), onDoneLoading);
   }
 

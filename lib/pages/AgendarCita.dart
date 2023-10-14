@@ -1,25 +1,56 @@
 import 'package:drplus/global/helper.dart';
+import 'package:drplus/pages/CrearCuenta.dart';
 import 'package:drplus/pages/Home.dart';
+import 'package:drplus/pages/Login.dart';
+import 'package:drplus/pages/Profile.dart';
 import 'package:drplus/pages/ResumenCita.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class AgendarCita extends StatefulWidget {
+
+class AgendarCita extends StatelessWidget {
+  AgendarCita({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context){
+    final arguments = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
+    var id = arguments['id']; 
+    return MaterialApp(
+      routes: {
+        '/login': (context) => Login(),
+        '/create': (context) => CrearCuenta(),
+        '/home': (context) => Home(),
+        '/profile': (context) => Profile(),
+        '/makeAppointment': (context) => AgendarCita()
+      },
+      home: _AgendarCita(id:id)
+    );
+  }
+
+
+}
+
+class _AgendarCita extends StatefulWidget {
+  late int id;
+  _AgendarCita({Key? key, required this.id}) : super(key: key);
+
   @override
   _MyAppState createState() => _MyAppState();
 }
  
-class _MyAppState extends State<AgendarCita> {
+class _MyAppState extends State<_AgendarCita> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   bool _buttonState = false;
   bool _showMessage = false;
   bool _stateAccept = false;
+  var id;
 
   @override
   void initState() {
     super.initState();
+    id = widget.id;
   }
 
   @override
@@ -29,11 +60,10 @@ class _MyAppState extends State<AgendarCita> {
     var width = helper.getWidth();
     var height = helper.getHeight();
 
-    String doctorName = "Doctor Paco";
+    String doctorName = "Doctor Alex Loayza";
     String doctorSpeciality = "Especializado en Pediatria";
 
-    return MaterialApp(
-      home: Scaffold(
+    return  Scaffold(
         body: Center(
           child: Container(
             padding: EdgeInsets.all(width*0.08),
@@ -111,9 +141,8 @@ class _MyAppState extends State<AgendarCita> {
                 InkWell(
                   autofocus: _buttonState,
                   onTap: (){
-                    print("Click!! =>>>>>>>>>>>>>>>");
                     if(!_buttonState){
-                      helper.showAlertDialog(context, "Aceptación de Cita", "Está de acuerdo en aceptar la cita con el especialista ${doctorName} ${doctorSpeciality} para la fecha de ${helper.getLocalDateFormat(_focusedDay)}", ResumenCita());
+                      helper.showAlertDialog(context, "Aceptación de Cita", "Está de acuerdo en aceptar la cita con el especialista ${doctorName} ${doctorSpeciality} para la fecha de ${helper.getLocalDateFormat(_focusedDay)}", '/home',id);
                     }
                   },
                   child: Container(
@@ -121,6 +150,18 @@ class _MyAppState extends State<AgendarCita> {
                     width: width*0.8,
                     decoration: BoxDecoration(color: helper.getThirdColor(), borderRadius: BorderRadius.circular(5)),
                     child: Text("Agendar Cita", style: TextStyle(color: helper.getSecondaryColor()),  textAlign: TextAlign.center)
+                  )
+                ),
+                Padding(padding: EdgeInsets.only(top: height*0.02)),
+                InkWell(
+                  onTap: (){
+                    Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false, arguments: { 'id': id});
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    width: width*0.8,
+                    decoration: BoxDecoration(color: Colors.redAccent, borderRadius: BorderRadius.circular(5)),
+                    child: Text("Volver", style: TextStyle(color: helper.getSecondaryColor()),  textAlign: TextAlign.center)
                   )
                 ),
                 if(_buttonState)
@@ -145,8 +186,7 @@ class _MyAppState extends State<AgendarCita> {
               ]),
           ),
         ),
-      ),
-    );
+      );
   }
 }
 

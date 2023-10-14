@@ -1,11 +1,18 @@
+import 'dart:convert';
+
+import 'package:drplus/global/helper.dart';
 import 'package:flutter/material.dart';
 import 'Login.dart';
+import 'package:http/http.dart' as http;
+
 class CrearCuenta extends StatelessWidget {
   const CrearCuenta({Key? key}) : super(key: key);
 
    @override
   Widget build(BuildContext context) {
+    Helper helper = Helper(context);
     return MaterialApp(
+      routes: helper.routes,
       home: Scaffold(
         // appBar: AppBar(title: const Text(_title)),
         body: const _CrearCuenta(),
@@ -22,17 +29,63 @@ class _CrearCuenta extends StatefulWidget{
 }
 
 class _RegisterPageState extends State<_CrearCuenta> {
-
-
  GlobalKey<FormState> keyForm = new GlobalKey();
- TextEditingController  nameCtrl = new TextEditingController();
- TextEditingController  emailCtrl = new TextEditingController();
- TextEditingController  mobileCtrl = new TextEditingController();
- TextEditingController  passwordCtrl = new TextEditingController();
- TextEditingController  repeatPassCtrl = new TextEditingController();
+ TextEditingController nameCtrl = new TextEditingController();
+ TextEditingController apeCtrl = new TextEditingController();
+ TextEditingController emailCtrl = new TextEditingController();
+ TextEditingController mobileCtrl = new TextEditingController();
+ TextEditingController passwordCtrl = new TextEditingController();
+ TextEditingController repeatPassCtrl = new TextEditingController();
+ TextEditingController dropdownValue = new TextEditingController();
+ String genderCtrl = 'hombre';
+ List<String> list = ["Doctor", "Paciente"];
+ var error = "";
+ late var width;
+ late var height;
+  var url = 'https://40ad-38-25-18-160.ngrok-free.app/createUser';
+  void saveUser() async{
+    var nombre = nameCtrl.text.toString();
+    var apellido = apeCtrl.text.toString();
+    var cel = mobileCtrl.text.toString();
+    var gender = genderCtrl.toString();
+    var userType = dropdownValue.toString();
+    var idType;
+    if(userType.toString().toUpperCase() == "DOCTOR"){
+      idType = 1;
+    }else{
+      idType = 2;
+    }
+    var email = emailCtrl.text.toString();
+    var pwd = '';
+    if(passwordCtrl.text.toString().toLowerCase() == repeatPassCtrl.text.toString().toLowerCase()){
+      pwd = passwordCtrl.text.toString();
+    }else{
+      error = "Las contraseñas no coinciden";
+      return;
+    }
+
+    Map data = {
+      'nombre': nombre.toString(),
+      'apellido': apellido.toString(),
+      'telefono': cel.toString(),
+      // 'gender': gender,
+      'usertype': idType,
+      'username': email,
+      'password': pwd.toString()
+    };
+
+    var body = json.encode(data);
+    var response = await http.post(Uri.parse(url),body: body, headers: {'Content-type': 'application/json'});
+  }
 
  @override
  Widget build(BuildContext context) {
+    Helper helper = Helper(context);
+
+    setState(() {
+      width = helper.getWidth();
+      height = helper.getHeight();
+    });  
    return MaterialApp(
      home: new Scaffold(
        appBar: new AppBar(
@@ -62,8 +115,6 @@ class _RegisterPageState extends State<_CrearCuenta> {
    );
  }
 
- String gender = 'hombre';
-
  Widget formUI() {
    return  Column(
      children: <Widget>[
@@ -72,10 +123,19 @@ class _RegisterPageState extends State<_CrearCuenta> {
            TextFormField(
              controller: nameCtrl,
              decoration: new InputDecoration(
-               labelText: 'Nombre',
+               labelText: 'Nombres',
              ),
             //  validator: validateName,
            )),
+       formItemsDesign(
+          Icons.person,
+          TextFormField(
+            controller: apeCtrl,
+            decoration: new InputDecoration(
+              labelText: 'Apellidos',
+            ),
+          //  validator: validateName,
+        )),
        formItemsDesign(
            Icons.phone,
            TextFormField(
@@ -94,24 +154,36 @@ class _RegisterPageState extends State<_CrearCuenta> {
              RadioListTile<String>(
                title: const Text('Hombre'),
                value: 'hombre',
-               groupValue: gender,
+               groupValue: genderCtrl,
                onChanged: (value) {
                  setState(() {
-                  //  gender = value;
+                  genderCtrl = value!;
                  });
                },
              ),
              RadioListTile<String>(
                title: const Text('Mujer'),
                value: 'mujer',
-               groupValue: gender,
+               groupValue: genderCtrl,
                onChanged: (value) {
                  setState(() {
-                  //  gender = (value) ? value : "";
+                  genderCtrl = value!;
                  });
                },
              )
            ])),
+       formItemsDesign(Icons.supervised_user_circle,
+        DropdownMenu<String>(
+          width: width*0.6,
+          controller: dropdownValue,
+          initialSelection: list.first,
+          onSelected: (String? value) {
+          },
+          dropdownMenuEntries: list.map<DropdownMenuEntry<String>>((String value) {
+            return DropdownMenuEntry<String>(value: value, label: value);
+          }).toList(),
+        )
+       ),
        formItemsDesign(
            Icons.email,
            TextFormField(
@@ -145,7 +217,9 @@ class _RegisterPageState extends State<_CrearCuenta> {
            )),
    GestureDetector(
    onTap: (){
-     save();
+    saveUser();
+    Navigator.pushNamedAndRemoveUntil(context, '/login',(route) => false);
+    // Navigator.pop(context);
    },child: Container(
          margin: new EdgeInsets.all(30.0),
          alignment: Alignment.center,
@@ -214,12 +288,4 @@ class _RegisterPageState extends State<_CrearCuenta> {
    }
  }
 
- save() {
-  //  if (keyForm.currentState.validate()) {
-    //  print("Nombre ${nameCtrl.text}");
-    //  print("Telefono ${mobileCtrl.text}");
-    //  print("Correo ${emailCtrl.text}");
-        //  keyForm.currentState.reset();
-  //  }
- }
 }
