@@ -13,7 +13,6 @@ class Consultas extends StatelessWidget{
     Helper helper = Helper(context);
     final arguments = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
     var id = arguments['id'];
-    print(id);
     return MaterialApp(
       routes: helper.routes,
       home: _ConsultasFul(id: id),
@@ -110,6 +109,11 @@ class _ConsultasFulState extends State<_ConsultasFul>{
               backgroundColor: helper.getThirdColor(),
             ),
             BottomNavigationBarItem(
+              icon: Icon(Icons.web_rounded),
+              label: 'Comunidad',
+              backgroundColor: helper.getThirdColor(),
+            ),
+            BottomNavigationBarItem(
               icon: Icon(Icons.logout),
               label: 'Salir',
               backgroundColor: helper.getThirdColor(),
@@ -123,7 +127,7 @@ class _ConsultasFulState extends State<_ConsultasFul>{
   }
 
   Future<List<Consult>> getConsults() async {
-  var res = await http.get(Uri.parse("https://53da-38-25-18-160.ngrok-free.app/getConsultas?id=$id"), headers: {'Content-type': 'application/json'});
+  var res = await http.get(Uri.parse("http://20.84.60.188:8080/getConsultas?id=$id"), headers: {'Content-type': 'application/json'});
     if (res.statusCode == 200) {
       List<Consult> consults  = (json.decode(res.body) as List)
           .map((data) => Consult.fromJson(data))

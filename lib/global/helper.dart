@@ -1,9 +1,11 @@
 import 'package:drplus/pages/AgendarCita.dart';
+import 'package:drplus/pages/Community.dart';
 import 'package:drplus/pages/Consultas.dart';
 import 'package:drplus/pages/CrearCuenta.dart';
 import 'package:drplus/pages/Home.dart';
 import 'package:drplus/pages/Login.dart';
 import 'package:drplus/pages/Profile.dart';
+import 'package:drplus/pages/ResumenCita.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -106,7 +108,9 @@ class Helper{
     '/home': (context) => Home(),
     '/profile': (context) => Profile(),
     '/makeAppointment': (context) => AgendarCita(),
-    '/consults': (context) => Consultas()
+    '/consults': (context) => Consultas(),
+    '/community': (context) => Community(),
+    '/dateResume': (context) => ResumenCita()
   };
 
   redirectTo(int index, BuildContext context, int id){
@@ -116,6 +120,8 @@ class Helper{
       case 1:
         Navigator.pushNamedAndRemoveUntil(context,'/profile', (route) => false, arguments: { 'id': id });
       case 2:
+        Navigator.pushNamedAndRemoveUntil(context, '/community', (route) => false, arguments: { 'id': id });
+      case 3:
         Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
     }
   }

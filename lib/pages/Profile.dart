@@ -146,6 +146,11 @@ class _ProfileState extends State<ProfileFul>{
                 backgroundColor: helper.getThirdColor(),
               ),
               BottomNavigationBarItem(
+                icon: Icon(Icons.web_rounded),
+                label: 'Comunidad',
+                backgroundColor: helper.getThirdColor(),
+              ),
+              BottomNavigationBarItem(
                 icon: Icon(Icons.logout),
                 label: 'Salir',
                 backgroundColor: helper.getThirdColor(),
@@ -159,7 +164,7 @@ class _ProfileState extends State<ProfileFul>{
   }
 
   void getUserInfo() async{
-    var res = await http.get(Uri.parse("https://53da-38-25-18-160.ngrok-free.app/findUser?id=$idUser"), headers: {'Content-type': 'application/json'});
+    var res = await http.get(Uri.parse("http://20.84.60.188:8080/findUser?id=$idUser"), headers: {'Content-type': 'application/json'});
     if(res.statusCode == 200){
       setState(() {
         user = jsonDecode(res.body);

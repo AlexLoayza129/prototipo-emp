@@ -7,11 +7,13 @@ class ResumenCita extends StatelessWidget{
 
   @override
   Widget build(BuildContext context){
+    final arguments = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
+    var id = arguments['id'];
     Helper helper = Helper(context);
     return MaterialApp(
       routes: helper.routes,
       home: Scaffold(
-        body: ResumenCitaFull(),
+        body: ResumenCitaFull(id: id),
       ),
     );
   }
@@ -19,6 +21,9 @@ class ResumenCita extends StatelessWidget{
 }
 
 class ResumenCitaFull extends StatefulWidget{
+  var id;
+  ResumenCitaFull({Key? key, required this.id}) : super(key: key);
+
 
   @override
   _ResumenCitaState createState() => _ResumenCitaState();
@@ -28,11 +33,12 @@ class ResumenCitaFull extends StatefulWidget{
 class _ResumenCitaState extends State<ResumenCitaFull>{
 
   //? Inicializar variables
-
+  late var id;
   //* Agregar sus valores
   @override
   void initState() {
     super.initState();
+    id = widget.id;
   }
 
   @override
@@ -201,7 +207,7 @@ class _ResumenCitaState extends State<ResumenCitaFull>{
                 const Spacer(),
                 Expanded(
                   child: Text(
-                    "12/10/2023",
+                    "21/10/2023",
                     style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: width*0.028),
                     textAlign: TextAlign.center,
                     softWrap: true,
@@ -214,7 +220,7 @@ class _ResumenCitaState extends State<ResumenCitaFull>{
           Padding(padding: EdgeInsets.only(top: height*0.05)),
           InkWell(
             onTap: (){
-              Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+              Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false, arguments: {'id': id});
             },
             child: Container(
               padding: EdgeInsets.all(10),

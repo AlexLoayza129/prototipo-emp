@@ -41,7 +41,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false, arguments: {'id': id });
   }
 
-  var url = 'https://53da-38-25-18-160.ngrok-free.app/getUser';
+  var url = 'http://20.84.60.188:8080/getUser';
   void saveUser() async{
     var username = nameController.text.toString();
     var pwd = passwordController.text.toString();

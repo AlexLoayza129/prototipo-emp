@@ -15,14 +15,9 @@ class AgendarCita extends StatelessWidget {
   Widget build(BuildContext context){
     final arguments = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
     var id = arguments['id']; 
+    Helper helper = Helper(context);
     return MaterialApp(
-      routes: {
-        '/login': (context) => Login(),
-        '/create': (context) => CrearCuenta(),
-        '/home': (context) => Home(),
-        '/profile': (context) => Profile(),
-        '/makeAppointment': (context) => AgendarCita()
-      },
+      routes: helper.routes,
       home: _AgendarCita(id:id)
     );
   }
@@ -60,7 +55,7 @@ class _MyAppState extends State<_AgendarCita> {
     var width = helper.getWidth();
     var height = helper.getHeight();
 
-    String doctorName = "Doctor Alex Loayza";
+    String doctorName = "Doctor Paco Rivas";
     String doctorSpeciality = "Especializado en Pediatria";
 
     return  Scaffold(
@@ -139,11 +134,8 @@ class _MyAppState extends State<_AgendarCita> {
                 ),
                 if(!_buttonState)
                 InkWell(
-                  autofocus: _buttonState,
                   onTap: (){
-                    if(!_buttonState){
-                      helper.showAlertDialog(context, "Aceptación de Cita", "Está de acuerdo en aceptar la cita con el especialista ${doctorName} ${doctorSpeciality} para la fecha de ${helper.getLocalDateFormat(_focusedDay)}", '/home',id);
-                    }
+                    helper.showAlertDialog(context, "Aceptación de Cita", "Está de acuerdo en aceptar la cita con el especialista ${doctorName} ${doctorSpeciality} para la fecha de ${helper.getLocalDateFormat(_focusedDay)}", '/dateResume',id);
                   },
                   child: Container(
                     padding: const EdgeInsets.all(10),

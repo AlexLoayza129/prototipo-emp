@@ -42,7 +42,7 @@ class _RegisterPageState extends State<_CrearCuenta> {
  var error = "";
  late var width;
  late var height;
-  var url = 'https://40ad-38-25-18-160.ngrok-free.app/createUser';
+  var url = 'http://20.84.60.188:8080/createUser';
   void saveUser() async{
     var nombre = nameCtrl.text.toString();
     var apellido = apeCtrl.text.toString();
@@ -189,7 +189,7 @@ class _RegisterPageState extends State<_CrearCuenta> {
            TextFormField(
              controller: emailCtrl,
                decoration: new InputDecoration(
-                 labelText: 'Email',
+                 labelText: 'Usuario',
                ),
                keyboardType: TextInputType.emailAddress,
                maxLength: 32,

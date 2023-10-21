@@ -3,6 +3,7 @@ import 'package:drplus/pages/CrearCuenta.dart';
 import 'package:drplus/pages/Home.dart';
 import 'package:drplus/pages/Login.dart';
 import 'package:drplus/pages/Profile.dart';
+import 'package:drplus/pages/ResumenCita.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -10,6 +11,7 @@ import 'package:lottie/lottie.dart';
 // import './pages/Login.dart';
 import './pages/AgendarCita.dart';
 void main() => runApp(MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // backgroundColor: Color(0xff121217),
          textTheme: TextTheme(
@@ -21,7 +23,8 @@ void main() => runApp(MaterialApp(
         '/create': (context) => CrearCuenta(),
         '/home': (context) => Home(),
         '/profile': (context) => Profile(),
-        '/makeAppointment': (context) => AgendarCita()
+        '/makeAppointment': (context) => AgendarCita(),
+        '/dateResume': (context) => ResumenCita()
       },
       home: SplashScreen(),
     ));

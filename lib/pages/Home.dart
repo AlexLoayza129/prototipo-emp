@@ -172,6 +172,11 @@ class _HomePageState extends State<HomeFul>{
               backgroundColor: helper.getThirdColor(),
             ),
             BottomNavigationBarItem(
+              icon: Icon(Icons.web_rounded),
+              label: 'Comunidad',
+              backgroundColor: helper.getThirdColor(),
+            ),
+            BottomNavigationBarItem(
               icon: Icon(Icons.logout),
               label: 'Salir',
               backgroundColor: helper.getThirdColor(),
@@ -188,7 +193,7 @@ class _HomePageState extends State<HomeFul>{
   void getUserInfo() async{
     // "https://53da-38-25-18-160.ngrok-free.app"
     //"http://192.168.18.13:7575"
-    var res = await http.get(Uri.parse("https://53da-38-25-18-160.ngrok-free.app/findUser?id=$id"), headers: {'Content-type': 'application/json'});
+    var res = await http.get(Uri.parse("http://20.84.60.188:8080/findUser?id=$id"), headers: {'Content-type': 'application/json'});
     if(res.statusCode == 200){
       setState(() {
         user = jsonDecode(res.body);
@@ -197,7 +202,7 @@ class _HomePageState extends State<HomeFul>{
   }
 
   Future<List<User>> getDoctors() async {
-  var res = await http.get(Uri.parse("https://53da-38-25-18-160.ngrok-free.app/getDoctores"), headers: {'Content-type': 'application/json'});
+  var res = await http.get(Uri.parse("http://20.84.60.188:8080/getDoctores"), headers: {'Content-type': 'application/json'});
     if (res.statusCode == 200) {
       List<User> docs = (json.decode(res.body) as List)
           .map((data) => User.fromJson(data))
